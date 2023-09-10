@@ -5,21 +5,17 @@ using System.Collections;
 
 public class LevelLoader : MonoBehaviour
 {
-    public LevelLoader Instance;
+    public static LevelLoader Instance;
 
     public GameObject LoadingScreen;
-
-    public TextMeshProUGUI LoadingText;
-
-    public string NextLevel;
 
     private void Awake()
     {
         Instance = this;
     }
-    public void LoadingFunction()
+    public void LoadingFunction(string LevelName)
     {
-        StartCoroutine(StartLoading(NextLevel));
+        StartCoroutine(StartLoading(LevelName));
     }
 
     IEnumerator StartLoading(string LevelName)
