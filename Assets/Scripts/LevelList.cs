@@ -12,6 +12,8 @@ public class LevelList : ScriptableObject
     {
         public string LevelName;
 
+        public int LevelID;
+
         public bool IsCompleted = false;
 
         public bool IsLocked = false;

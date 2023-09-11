@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 public class LevelHolder : MonoBehaviour
 {
-    public string LevelName;
+    public int LevelID;
 
     public Image LevelImage;
 
     public void SelectLevel()
     {
-        LevelLoader.Instance.LoadingFunction(LevelName);
+        LevelGenerator.Instance.StartCoroutine(LevelGenerator.Instance.StartLoading(LevelID));
     }
 }

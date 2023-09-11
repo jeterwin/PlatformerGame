@@ -18,15 +18,14 @@ public class ItemPickup : MonoBehaviour
 
     void PickupCoin()
     {
-        CoinManager.Instance.Coins += 1;
+        CoinManager.Instance.UpdateCoinCount();
         CoinManager.Instance.AudioSource.PlayOneShot(SFX);
-        CoinManager.Instance.EndLevel();
         Destroy(gameObject);
     }
 
     void PickupHealth()
     {
-        PlayerScriptMobile.Instance.Health += 10;
+        Health.Instance.HP += 10;
         CoinManager.Instance.AudioSource.PlayOneShot(SFX);
         Destroy(gameObject);
     }

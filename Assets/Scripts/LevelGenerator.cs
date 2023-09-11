@@ -1,11 +1,12 @@
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class LevelGenerator : MonoBehaviour
 {
+    public static LevelGenerator Instance;
+
+    public GameObject LoadingScreen;
+
     public LevelList LevelList;
 
     [SerializeField] Sprite CompletedLevelSprite;
@@ -18,6 +19,10 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField] Transform LevelsGrid;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         int MaxLevel = SettingsScript.Instance.CurrentLevel;
@@ -31,8 +36,25 @@ public class LevelGenerator : MonoBehaviour
             LevelHolder LevelHolder = CurrentLevel.GetComponent<LevelHolder>();
 
             LevelHolder.LevelImage.sprite = LevelList.LevelLists[i].IsCompleted ? CompletedLevelSprite : LevelList.LevelLists[i].IsLocked ? LockedLevelSprite : UncompletedLevelSprite;
-            LevelHolder.LevelName = LevelList.LevelLists[i].LevelName;
+            LevelHolder.LevelID = LevelList.LevelLists[i].LevelID;
             //CurrentLevel.GetComponentInChildren<TextMeshProUGUI>().text = (i+1).ToString();
         }
+    }
+
+    public IEnumerator StartLoading(int LevelID)
+    {
+        if(!LevelList.LevelLists[LevelID - 1].IsLocked)
+        {
+            AsyncOperation operation = SceneManager.LoadSceneAsync(LevelID);
+            LoadingScreen.SetActive(true);
+
+            while(!operation.isDone)
+            {
+                yield return null;
+            }
+        }
+        else
+            yield return null;
+
     }
 }

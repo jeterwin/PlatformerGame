@@ -14,14 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelLists:
   - LevelName: Level1
+    LevelID: 1
     IsCompleted: 0
     IsLocked: 1
   - LevelName: Level2
+    LevelID: 2
     IsCompleted: 0
     IsLocked: 1
   - LevelName: Level3
+    LevelID: 3
     IsCompleted: 0
     IsLocked: 1
   - LevelName: Level4
+    LevelID: 4
     IsCompleted: 0
     IsLocked: 1
