@@ -22,12 +22,6 @@ public class SettingsScript : MonoBehaviour
         set { PlayerPrefs.SetFloat("SFXVolume", value); }
     }
 
-    public int CurrentLevel
-    {
-        get { return PlayerPrefs.HasKey("CurrentLevel") ? PlayerPrefs.GetInt("CurrentLevel") : 1; }
-        set { PlayerPrefs.SetInt("CurrentLevel", value); }
-    }
-
     public void SetMainVolume(float volume)
     {
         MainVolume = volume;
@@ -39,12 +33,6 @@ public class SettingsScript : MonoBehaviour
         MainAudioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
     }
     #endregion
-
-    public void SetCurrentLevel(int LevelID)
-    {
-        CurrentLevel = LevelID;
-    }
-
     private void Awake()
     {
         Instance = this;

@@ -35,5 +35,6 @@ public class CoinManager : MonoBehaviour
         {
             EndScreen.SetActive(true);
         }
+        SaveManager.Instance.SaveGame();
     }
 }

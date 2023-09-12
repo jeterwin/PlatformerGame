@@ -25,10 +25,15 @@ public class LevelGenerator : MonoBehaviour
     }
     private void Start()
     {
-        int MaxLevel = SettingsScript.Instance.CurrentLevel;
+        int MaxLevel = SaveManager.Instance.GetSaveData.levelReached;
+        Debug.Log(MaxLevel);
         for(int i = 1; i <= MaxLevel; i++)
         {
             LevelList.LevelLists[i - 1].IsLocked = false;
+        }
+         for(int i = 1; i <= MaxLevel - 1; i++)
+        {
+            LevelList.LevelLists[i - 1].IsCompleted = true;
         }
         for(int i = 0; i < LevelList.LevelLists.Count;i++)
         {
@@ -37,7 +42,6 @@ public class LevelGenerator : MonoBehaviour
 
             LevelHolder.LevelImage.sprite = LevelList.LevelLists[i].IsCompleted ? CompletedLevelSprite : LevelList.LevelLists[i].IsLocked ? LockedLevelSprite : UncompletedLevelSprite;
             LevelHolder.LevelID = LevelList.LevelLists[i].LevelID;
-            //CurrentLevel.GetComponentInChildren<TextMeshProUGUI>().text = (i+1).ToString();
         }
     }
 

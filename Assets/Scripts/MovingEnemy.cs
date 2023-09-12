@@ -10,10 +10,15 @@ public class MovingEnemy : EnemyAI
 
     private void Update()
     {
-        if(Vector2.Distance(transform.position, PatrolPoints[i].position) < .02f)
+        Patrol();
+    }
+
+    private void Patrol()
+    {
+        if (Vector2.Distance(transform.position, PatrolPoints[i].position) < .02f)
         {
             i++;
-            if(i == PatrolPoints.Length)
+            if (i == PatrolPoints.Length)
             {
                 i = 0;
             }
