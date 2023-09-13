@@ -15,7 +15,25 @@ public class SaveManager : MonoBehaviour
     [Serializable]
     public class SaveData
     {
-        public int LevelReached;
+        int LevelReached;
+        int Health;
+        int MaxHealth;
+
+        public int SetLevelReached
+        {
+            get { return LevelReached; }
+            set { LevelReached = value; }
+        }
+        public int SetHealth
+        {
+            get { return Health; }
+            set { Health = value; }
+        }
+        public int SetMaxHealth
+        {
+            get { return MaxHealth; }
+            set {  MaxHealth = value; }
+        }
     }
     void Awake()
     {
@@ -23,7 +41,7 @@ public class SaveManager : MonoBehaviour
         SaveFolderPath = Application.persistentDataPath;
         
         SaveData SaveData1 = GetGameData();
-        SaveDataSO.levelReached = SaveData1.LevelReached;
+        SaveDataSO.levelReached = SaveData1.SetLevelReached;
     }
     public SaveDataSO GetSaveData
     {
@@ -37,7 +55,7 @@ public class SaveManager : MonoBehaviour
         string SaveFilePath = Path.Combine(SaveFolderPath, "saveData.json");
         // Create a SaveData object with your game's data
         SaveData SaveData = new SaveData();
-        SaveData.LevelReached = SceneManager.GetActiveScene().buildIndex + 1;
+        SaveData.SetLevelReached = SceneManager.GetActiveScene().buildIndex + 1;
 
         // Serialize and save the data to a JSON file
 
@@ -55,8 +73,12 @@ public class SaveManager : MonoBehaviour
             return JsonConvert.DeserializeObject<SaveData>(JsonData);
         }
         SaveData NewSaveData = new();
-        NewSaveData.LevelReached = 1;
-        SaveGame();
+        NewSaveData.SetLevelReached = 1;
+        NewSaveData.SetHealth = 3;
+        NewSaveData.SetMaxHealth = 6;
+
+        string NewData = JsonConvert.SerializeObject(NewSaveData);
+        File.WriteAllText(SaveFilePath, NewData);
         return NewSaveData;
         // Use the loaded data to restore the game state
         /* Set player position, health, inventory, etc. */

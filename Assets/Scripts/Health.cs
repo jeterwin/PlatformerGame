@@ -24,6 +24,8 @@ public class Health : MonoBehaviour
 
     Animator HealthAnimator;
 
+    SaveManager.SaveData SaveData;
+
     bool CanTakeDamage = true;
 
     private void Awake()
@@ -32,9 +34,10 @@ public class Health : MonoBehaviour
     }
     private void Start()
     {
-        HP = PlayerPrefs.GetInt("Health", 3);
-        FullHeartBar.fillAmount = HP / PlayerPrefs.GetInt("MaxHealth", 6);
-        HeartBar.fillAmount = HP / PlayerPrefs.GetInt("MaxHealth", 6);
+        SaveData = SaveManager.Instance.GetGameData();
+        HP = SaveData.SetHealth;
+        FullHeartBar.fillAmount = HP / SaveData.SetMaxHealth;
+        HeartBar.fillAmount = HP / SaveData.SetMaxHealth;
 
         HealthAnimator = HeartBar.GetComponent<Animator>();
     }
@@ -50,7 +53,7 @@ public class Health : MonoBehaviour
             HealthAnimator.Play("Damage");
             AudioSource.PlayOneShot(DamageTakenSFX);
             HP -= Damage;            
-            HeartBar.fillAmount = HP / PlayerPrefs.GetInt("MaxHealth", 6);
+            HeartBar.fillAmount = HP / SaveData.SetMaxHealth;
             if(HP == 0)
             {
                 DeathUI.SetActive(true);
