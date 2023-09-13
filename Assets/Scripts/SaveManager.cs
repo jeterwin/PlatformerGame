@@ -15,9 +15,9 @@ public class SaveManager : MonoBehaviour
     [Serializable]
     public class SaveData
     {
-        int LevelReached;
-        int Health;
-        int MaxHealth;
+        int LevelReached = 1;
+        int Health = 3;
+        int MaxHealth = 6;
 
         public int SetLevelReached
         {
@@ -73,9 +73,6 @@ public class SaveManager : MonoBehaviour
             return JsonConvert.DeserializeObject<SaveData>(JsonData);
         }
         SaveData NewSaveData = new();
-        NewSaveData.SetLevelReached = 1;
-        NewSaveData.SetHealth = 3;
-        NewSaveData.SetMaxHealth = 6;
 
         string NewData = JsonConvert.SerializeObject(NewSaveData);
         File.WriteAllText(SaveFilePath, NewData);

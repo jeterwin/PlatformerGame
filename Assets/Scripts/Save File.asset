@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329e3396d9566eb4aadbe124893516f4, type: 3}
   m_Name: Save File
   m_EditorClassIdentifier: 
-  LevelReached: 0
+  LevelReached: 3
+  Health: 3
+  MaxHealth: 6

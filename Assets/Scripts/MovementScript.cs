@@ -42,9 +42,14 @@ public class MovementScript : MonoBehaviour
         if(!CanMove)
             return;
 
-        rb.velocity = MovingLeft == 1 ? 
-            new Vector2(-MoveSpeed, rb.velocity.y) : MovingRight == 1 ?
-            new Vector2(MoveSpeed, rb.velocity.y) :  new Vector2(rb.velocity.x, rb.velocity.y);
+        if(MovingLeft == 1)
+            transform.Translate(Vector2.left * MoveSpeed * Time.deltaTime);
+        else
+            if(MovingRight == 1)
+                transform.Translate(Vector2.right * MoveSpeed * Time.deltaTime);
+        //rb.velocity = MovingLeft == 1 ? 
+            //new Vector2(-MoveSpeed, rb.velocity.y) : MovingRight == 1 ?
+            //new Vector2(MoveSpeed, rb.velocity.y) :  new Vector2(rb.velocity.x, rb.velocity.y);
 
         UpdateAnimationState();
     }
@@ -52,20 +57,18 @@ public class MovementScript : MonoBehaviour
     {
         MovementState State;
 
-        if(rb.velocity.x > 0)
-        {
-            State = MovementState.Walking;
-            SpriteRenderer.flipX = false;
-        }
-        else if(rb.velocity.x < 0)
+        if(MovingLeft == 1)
         {
             State = MovementState.Walking;
             SpriteRenderer.flipX = true;
         }
-        else
+        else if(MovingRight == 1)
         {
-            State = MovementState.Idle;
+            State = MovementState.Walking;
+            SpriteRenderer.flipX = false;
         }
+        else
+            State = MovementState.Idle;
 
         if(rb.velocity.y > .1f)
         {

@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            Health.Instance.StartCoroutine(Health.Instance.TakeDamage(Damage, JumpMultiplier, false));
+            Health.Instance.StartCoroutine(Health.Instance.TakeDamage(Damage, JumpMultiplier, true));
         }
     }
 }
