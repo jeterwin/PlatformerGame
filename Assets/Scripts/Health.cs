@@ -1,16 +1,39 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class Health : MonoBehaviour
 {
     public static Health Instance;
 
+    [SerializeField] CinemachineVirtualCamera VCam;
+
+    CinemachineBasicMultiChannelPerlin ChannelPerlin;
+
     public float HP = 30;
+
+    [Header("Shake Variables")]
+
+    [SerializeField] float Frequency;
+
+    [SerializeField] float Amplitude;
 
     [SerializeField] float InvincibilityTime;
 
+    [SerializeField] float ResetShakeTimer;
+
+    [Space]
+    [Header("Death Variables")]
+
     public GameObject DeathUI;
+
+    [SerializeField] AudioClip DeathSFX;
+
+    [SerializeField] AudioClip DamageTakenSFX;
+
+    [Space]
+    [Header("Health Variables")]
 
     [SerializeField] Image HeartBar;
 
@@ -18,9 +41,6 @@ public class Health : MonoBehaviour
 
     [SerializeField] AudioSource AudioSource;
 
-    [SerializeField] AudioClip DeathSFX;
-
-    [SerializeField] AudioClip DamageTakenSFX;
 
     Animator HealthAnimator;
 
@@ -34,38 +54,74 @@ public class Health : MonoBehaviour
     }
     private void Start()
     {
+        Initialize();
+    }
+
+    private void Initialize()
+    {
         SaveData = SaveManager.Instance.GetGameData();
         HP = SaveData.SetHealth;
         FullHeartBar.fillAmount = HP / SaveData.SetMaxHealth;
         HeartBar.fillAmount = HP / SaveData.SetMaxHealth;
 
         HealthAnimator = HeartBar.GetComponent<Animator>();
+        ChannelPerlin = VCam.GetComponentInChildren<CinemachineBasicMultiChannelPerlin>();
     }
+
     public IEnumerator TakeDamage(int Damage, float JumpMultiplier, bool ShouldGetInvincibility)
     {
-        if(CanTakeDamage)
-        {            
-            if(ShouldGetInvincibility)
-            {
-                CanTakeDamage = false;
-                StartCoroutine(Damageable());
-            }
-            HealthAnimator.Play("Damage");
-            AudioSource.PlayOneShot(DamageTakenSFX);
-            HP -= Damage;            
-            HeartBar.fillAmount = HP / SaveData.SetMaxHealth;
-            if(HP == 0)
-            {
-                DeathUI.SetActive(true);
-                AudioSource.PlayOneShot(DeathSFX);
-                MovementScript.Instance.CanMove = false;
-            }
-            MovementScript.Instance.rb.AddForce(Vector2.up * MovementScript.Instance.JumpHeight * JumpMultiplier, ForceMode2D.Impulse);        
+        if(!CanTakeDamage) yield return null;
+        
+        if(ShouldGetInvincibility)
+        {
+            CanTakeDamage = false;
+            StartCoroutine(Damageable());
+        }
+        HealthAnimator.Play("Damage");
+        AudioSource.PlayOneShot(DamageTakenSFX);
+        HP -= Damage;            
+        HeartBar.fillAmount = HP / SaveData.SetMaxHealth;
 
+        Shake(Amplitude, Frequency);
+        if(HP == 0)
+        {
+            Die();
+        }
+        MovementScript.Instance.rb.velocity = Vector2.zero;
+        MovementScript.Instance.rb.angularVelocity = 0f;
+        MovementScript.Instance.rb.AddForce(Vector2.up * MovementScript.Instance.JumpHeight * JumpMultiplier, ForceMode2D.Impulse);        
+
+        yield return null;
+
+    }
+
+    private void Die()
+    {
+        DeathUI.SetActive(true);
+        AudioSource.PlayOneShot(DeathSFX);
+        MovementScript.Instance.CanMove = false;
+    }
+
+    public IEnumerator ResetShake()
+    {
+        float ElapsedTime = 0f;
+
+        while(ElapsedTime <= ResetShakeTimer)
+        {
+            ElapsedTime += Time.deltaTime;
+            ChannelPerlin.m_AmplitudeGain = Mathf.Lerp(Amplitude, 0, ElapsedTime / ResetShakeTimer);
+            ChannelPerlin.m_FrequencyGain = Mathf.Lerp(Frequency, 0, ElapsedTime / ResetShakeTimer);
             yield return null;
         }
-        else
-            yield return null;
+
+        yield return null;
+    }
+
+    void Shake(float amplitude, float frequency)
+    {
+        ChannelPerlin.m_AmplitudeGain = amplitude;
+        ChannelPerlin.m_FrequencyGain = frequency;
+        StartCoroutine(ResetShake());
     }
     IEnumerator Damageable()
     {

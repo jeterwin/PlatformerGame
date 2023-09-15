@@ -28,6 +28,11 @@ public class MovementScript : MonoBehaviour
 
     [HideInInspector]
     public bool CanMove = true;
+
+    public int IsReversed
+    {
+        get { return SpriteRenderer.flipX ? -1 : 1; } 
+    }
     private void Awake()
     {
         Instance = this;

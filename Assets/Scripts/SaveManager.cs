@@ -18,6 +18,7 @@ public class SaveManager : MonoBehaviour
         int LevelReached = 1;
         int Health = 3;
         int MaxHealth = 6;
+        int Coins = 10;
 
         public int SetLevelReached
         {
@@ -33,6 +34,11 @@ public class SaveManager : MonoBehaviour
         {
             get { return MaxHealth; }
             set {  MaxHealth = value; }
+        }     
+        public int SetCoins
+        {
+            get { return Coins; }
+            set { Coins = value; }
         }
     }
     void Awake()
@@ -42,6 +48,9 @@ public class SaveManager : MonoBehaviour
         
         SaveData SaveData1 = GetGameData();
         SaveDataSO.levelReached = SaveData1.SetLevelReached;
+        SaveDataSO.GetHealth = SaveData1.SetHealth;
+        SaveDataSO.GetMaxHealth = SaveData1.SetMaxHealth;
+        SaveDataSO.GetCoins = SaveData1.SetCoins;
     }
     public SaveDataSO GetSaveData
     {
@@ -54,9 +63,11 @@ public class SaveManager : MonoBehaviour
         // Create the save folder if it doesn't exist
         string SaveFilePath = Path.Combine(SaveFolderPath, "saveData.json");
         // Create a SaveData object with your game's data
-        SaveData SaveData = new SaveData();
+        SaveData SaveData = new();
         SaveData.SetLevelReached = SceneManager.GetActiveScene().buildIndex + 1;
-
+        SaveData.SetCoins = SaveDataSO.GetCoins;
+        SaveData.SetHealth = SaveDataSO.GetHealth;
+        SaveData.SetMaxHealth = SaveDataSO.GetMaxHealth;
         // Serialize and save the data to a JSON file
 
         string JsonData = JsonConvert.SerializeObject(SaveData);
