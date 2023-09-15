@@ -2921,6 +2921,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3036,6 +3037,102 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!82 &519420034
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: d05ebbe72b8a4a04484d7964584ace2f, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 033766cc31c97904bae4404b8a079544, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.25
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &548059582
 GameObject:
   m_ObjectHideFlags: 0
@@ -3976,7 +4073,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 8
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -3986,7 +4083,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &784815219
 MonoBehaviour:
@@ -4004,7 +4101,7 @@ MonoBehaviour:
   rb: {fileID: 784815216}
   SpriteRenderer: {fileID: 784815213}
   MoveSpeed: 5.5
-  JumpHeight: 25
+  JumpHeight: 21
   AudioSource: {fileID: 784815220}
   JumpSFX: {fileID: 8300000, guid: d11da9195d6e78b458f12078051c5378, type: 3}
   CanMove: 1
@@ -4123,7 +4220,6 @@ MonoBehaviour:
   InvincibilityTime: 2
   ResetShakeTimer: 0.4
   DeathUI: {fileID: 787388827}
-  DeathKick: 1
   DeathSFX: {fileID: 8300000, guid: 2cf5f37e5e94de049adf021595a8e927, type: 3}
   DamageTakenSFX: {fileID: 8300000, guid: 7bf99fed4bbc4a84dabb0d2fdccee8f1, type: 3}
   HeartBar: {fileID: 14246194}
@@ -7602,7 +7698,7 @@ CompositeCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.03}
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
@@ -7659,30 +7755,30 @@ CompositeCollider2D:
         Y: -20000000
   m_CompositePaths:
     m_Paths:
-    - - {x: 17.999971, y: -4}
-      - {x: 17.999971, y: 6}
-      - {x: 17, y: 5.999971}
-      - {x: 16.999971, y: -3}
-      - {x: 3, y: -3.0000293}
-      - {x: 3.0000293, y: -4}
-    - - {x: 2.999971, y: -8}
-      - {x: 2.999971, y: -7}
-      - {x: -15, y: -6.9999704}
-      - {x: -14.999971, y: -4}
-      - {x: -1, y: -3.999971}
-      - {x: -1.0000293, y: -3}
-      - {x: -15, y: -2.9999707}
-      - {x: -15.000029, y: 4}
-      - {x: -18, y: 3.999971}
-      - {x: -17.999971, y: -8}
-    - - {x: 7.9999704, y: 1}
-      - {x: 7.9999704, y: 2}
-      - {x: 5, y: 1.9999708}
-      - {x: 5.000029, y: 1}
-    - - {x: 2.999971, y: -2}
-      - {x: 2.999971, y: -1}
-      - {x: -1, y: -1.0000293}
-      - {x: -0.99997073, y: -2}
+    - - {x: 17.999971, y: -4.03}
+      - {x: 17.999971, y: 5.97}
+      - {x: 17, y: 5.9699707}
+      - {x: 16.999971, y: -3.03}
+      - {x: 3, y: -3.0300293}
+      - {x: 3.0000293, y: -4.03}
+    - - {x: 2.999971, y: -8.03}
+      - {x: 2.999971, y: -7.03}
+      - {x: -15, y: -7.0299706}
+      - {x: -14.999971, y: -4.03}
+      - {x: -1, y: -4.029971}
+      - {x: -1.0000293, y: -3.03}
+      - {x: -15, y: -3.0299706}
+      - {x: -15.000029, y: 3.97}
+      - {x: -18, y: 3.969971}
+      - {x: -17.999971, y: -8.03}
+    - - {x: 7.9999704, y: 0.97}
+      - {x: 7.9999704, y: 1.97}
+      - {x: 5, y: 1.9699708}
+      - {x: 5.000029, y: 0.97}
+    - - {x: 2.999971, y: -2.03}
+      - {x: 2.999971, y: -1.03}
+      - {x: -1, y: -1.0300293}
+      - {x: -0.99997073, y: -2.03}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0

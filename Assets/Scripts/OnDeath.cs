@@ -14,6 +14,11 @@ public class OnDeath : MonoBehaviour
     }
     public void NextLevel()
     {
+        if(SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings) 
+        {
+            MainMenu();
+            return;
+        }
         StartCoroutine(LoadScene(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name));
     }
     IEnumerator LoadScene(string LevelName)
@@ -27,5 +32,9 @@ public class OnDeath : MonoBehaviour
         }
 
         yield return null;
+    }
+    private void Update()
+    {
+        NextLevel();
     }
 }

@@ -70,29 +70,34 @@ public class Health : MonoBehaviour
 
     public IEnumerator TakeDamage(int Damage, float JumpMultiplier, bool ShouldGetInvincibility)
     {
-        if(!CanTakeDamage) yield return null;
-        
-        if(ShouldGetInvincibility)
+        if (!CanTakeDamage) yield return null;
+
+        if (ShouldGetInvincibility)
         {
             CanTakeDamage = false;
             StartCoroutine(Damageable());
         }
         HealthAnimator.Play("Damage");
         AudioSource.PlayOneShot(DamageTakenSFX);
-        HP -= Damage;            
+        HP -= Damage;
         HeartBar.fillAmount = HP / SaveData.SetMaxHealth;
 
         Shake(Amplitude, Frequency);
-        if(HP == 0)
+        if (HP == 0)
         {
             Die();
         }
-        MovementScript.Instance.rb.velocity = Vector2.zero;
-        MovementScript.Instance.rb.angularVelocity = 0f;
-        MovementScript.Instance.rb.AddForce(Vector2.up * MovementScript.Instance.JumpHeight * JumpMultiplier, ForceMode2D.Impulse);        
+        AddFeedbackOnDamage(JumpMultiplier);
 
         yield return null;
 
+    }
+
+    private static void AddFeedbackOnDamage(float JumpMultiplier)
+    {
+        MovementScript.Instance.rb.velocity = Vector2.zero;
+        MovementScript.Instance.rb.angularVelocity = 0f;
+        MovementScript.Instance.rb.AddForce(Vector2.up * MovementScript.Instance.JumpHeight * JumpMultiplier, ForceMode2D.Impulse);
     }
 
     private void Die()

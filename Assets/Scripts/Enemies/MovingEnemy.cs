@@ -5,9 +5,13 @@ using UnityEngine;
 public class MovingEnemy : EnemyAI
 {
     [SerializeField] Transform[] PatrolPoints;
-
+    SpriteRenderer SpriteRenderer;
     int i = 0;
 
+    private void Start()
+    {
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+    }
     private void Update()
     {
         Patrol();
@@ -18,6 +22,7 @@ public class MovingEnemy : EnemyAI
         if (Vector2.Distance(transform.position, PatrolPoints[i].position) < .02f)
         {
             i++;
+            SpriteRenderer.flipX = !SpriteRenderer.flipX;
             if (i == PatrolPoints.Length)
             {
                 i = 0;

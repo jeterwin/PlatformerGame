@@ -9,6 +9,8 @@ public class Shop : MonoBehaviour
 
     [SerializeField] SaveDataSO SaveDataSO;
 
+    [SerializeField] ParticleSystem SuccessParticleSystem;
+
     [SerializeField] Image HealthImage;
 
     [SerializeField] AudioSource AudioSource;
@@ -45,6 +47,7 @@ public class Shop : MonoBehaviour
         }
         if(!successful) { return; }
         //SaveManager.Instance.SaveGame();
+        SuccessParticleSystem.Play();
         AudioSource.Play();
     }
 
