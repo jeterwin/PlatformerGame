@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Save File
   m_EditorClassIdentifier: 
   LevelReached: 1
-  Health: 6
+  Health: 3
   MaxHealth: 6
   Coins: 0

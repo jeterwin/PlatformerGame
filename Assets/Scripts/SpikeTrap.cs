@@ -4,7 +4,7 @@ public class SpikeTrap : MonoBehaviour
 {
     [SerializeField] int Damage = 1;
 
-    [SerializeField] float JumpMultiplier = 1.80f;
+    [SerializeField] float JumpMultiplier = 1f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

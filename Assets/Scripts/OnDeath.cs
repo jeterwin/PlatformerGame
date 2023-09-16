@@ -19,7 +19,9 @@ public class OnDeath : MonoBehaviour
             MainMenu();
             return;
         }
-        StartCoroutine(LoadScene(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name));
+        //Bugged because Untiy lol?
+        //Debug.Log(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name);
+        StartCoroutine(LoadScene("Level" + (SceneManager.GetActiveScene().buildIndex + 1)));
     }
     IEnumerator LoadScene(string LevelName)
     {
@@ -32,9 +34,5 @@ public class OnDeath : MonoBehaviour
         }
 
         yield return null;
-    }
-    private void Update()
-    {
-        NextLevel();
     }
 }

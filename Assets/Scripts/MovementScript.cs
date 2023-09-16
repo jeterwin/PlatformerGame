@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,11 +13,21 @@ public class MovementScript : MonoBehaviour
 
     [SerializeField] SpriteRenderer SpriteRenderer;
 
+   [SerializeField] ParticleSystem DustParticleSystem;
+
     [Header("Movement Variables")]
 
     public float MoveSpeed = 6;
 
     public float JumpHeight = 2;
+
+    [Header("Gravity Settings")]
+
+    [SerializeField] float NormalGravityScale;
+
+    [SerializeField] float MinGravityScale;
+
+    [SerializeField] float MaxFallSpeed;
 
     [Header("Sound Effects")]
 
@@ -29,6 +40,7 @@ public class MovementScript : MonoBehaviour
     [HideInInspector]
     public bool CanMove = true;
 
+    [SerializeField] bool reachedPeak = false;
     public int IsReversed
     {
         get { return SpriteRenderer.flipX ? -1 : 1; } 
@@ -52,12 +64,34 @@ public class MovementScript : MonoBehaviour
         else
             if(MovingRight == 1)
                 transform.Translate(Vector2.right * MoveSpeed * Time.deltaTime);
-        //rb.velocity = MovingLeft == 1 ? 
-            //new Vector2(-MoveSpeed, rb.velocity.y) : MovingRight == 1 ?
-            //new Vector2(MoveSpeed, rb.velocity.y) :  new Vector2(rb.velocity.x, rb.velocity.y);
+        //Falling state
+        if(rb.velocity.y < 0)
+        {
+            SetMinFallingSpeed();
+        }
+        else if(rb.velocity.y > 0)
+        {
+            SetNormalFallingSpeed();
+        }
 
         UpdateAnimationState();
     }
+
+    public bool isGrounded
+    {
+        get { return rb.velocity.y == 0; }
+    }
+    private void SetNormalFallingSpeed()
+    {
+        rb.gravityScale = NormalGravityScale;
+    }
+
+    private void SetMinFallingSpeed()
+    {
+        rb.gravityScale = MinGravityScale;
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -MaxFallSpeed));
+    }
+
     void UpdateAnimationState()
     {
         MovementState State;
@@ -80,11 +114,13 @@ public class MovementScript : MonoBehaviour
             State = MovementState.Jumping;
         }
 
+        if((int)State == 1 && isGrounded)
+            DustParticleSystem.Play();
         Animator.SetInteger("State", (int)State);
     }
     public void Jump()
     {
-        if(rb.velocity.y == 0)
+        if(isGrounded)
         {
             rb.AddForce(Vector2.up * JumpHeight, ForceMode2D.Impulse);
             AudioSource.PlayOneShot(JumpSFX);

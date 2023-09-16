@@ -13,8 +13,8 @@ TagManager:
   - UI
   - Player
   - Background
-  - 
-  - 
+  - Climbable
+  - Ground
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: Decor
     uniqueID: 4264468201
+    locked: 0
+  - name: Particles
+    uniqueID: 1924960059
     locked: 0
   - name: Player
     uniqueID: 285682891

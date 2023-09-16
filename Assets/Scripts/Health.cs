@@ -35,6 +35,8 @@ public class Health : MonoBehaviour
     [Space]
     [Header("Health Variables")]
 
+    [SerializeField] ParticleSystem ParticleSystem;
+
     [SerializeField] Image HeartBar;
 
     [SerializeField] Image FullHeartBar;
@@ -81,7 +83,7 @@ public class Health : MonoBehaviour
         AudioSource.PlayOneShot(DamageTakenSFX);
         HP -= Damage;
         HeartBar.fillAmount = HP / SaveData.SetMaxHealth;
-
+        ParticleSystem.Play();
         Shake(Amplitude, Frequency);
         if (HP == 0)
         {

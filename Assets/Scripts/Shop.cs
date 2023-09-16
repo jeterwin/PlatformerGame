@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class Shop : MonoBehaviour
 {
@@ -46,7 +45,7 @@ public class Shop : MonoBehaviour
                 break;
         }
         if(!successful) { return; }
-        //SaveManager.Instance.SaveGame();
+        SaveManager.Instance.SaveGame();
         SuccessParticleSystem.Play();
         AudioSource.Play();
     }

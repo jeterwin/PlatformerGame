@@ -18,7 +18,7 @@ public class SaveManager : MonoBehaviour
         int LevelReached = 1;
         int Health = 3;
         int MaxHealth = 6;
-        int Coins = 10;
+        int Coins = 0;
 
         public int SetLevelReached
         {

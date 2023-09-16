@@ -9,7 +9,7 @@ public class SaveDataSO : ScriptableObject
 
     [SerializeField] int MaxHealth = 6;
 
-    [SerializeField] int Coins = 10;
+    [SerializeField] int Coins = 0;
     public int levelReached
     {
         get { return LevelReached; }

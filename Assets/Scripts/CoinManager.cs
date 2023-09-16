@@ -22,10 +22,6 @@ public class CoinManager : MonoBehaviour
     {
         Text.text = Coins.ToString() + "/" + MaxCoins.ToString();
     }
-    public void EndLevel()
-    {
-
-    }
     //Make function for coins here
     public void UpdateCoinCount()
     {
@@ -33,8 +29,9 @@ public class CoinManager : MonoBehaviour
         Text.text = Coins.ToString() + "/" + MaxCoins.ToString();        
         if(Coins == MaxCoins)
         {
+            SaveManager.Instance.GetSaveData.GetCoins += Coins;
+            SaveManager.Instance.SaveGame();
             EndScreen.SetActive(true);
         }
-        SaveManager.Instance.SaveGame();
     }
 }
