@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 using System;
+using System.Reflection;
 
 public class SaveManager : MonoBehaviour
 {
@@ -10,47 +11,18 @@ public class SaveManager : MonoBehaviour
 
     private string SaveFolderPath;
 
-    [SerializeField] SaveDataSO SaveDataSO;
+    [SerializeField] private SaveDataSO SaveDataSO;
 
-    [Serializable]
-    public class SaveData
+    public SaveDataSO GetData
     {
-        int LevelReached = 1;
-        int Health = 3;
-        int MaxHealth = 6;
-        int Coins = 0;
-
-        public int SetLevelReached
-        {
-            get { return LevelReached; }
-            set { LevelReached = value; }
-        }
-        public int SetHealth
-        {
-            get { return Health; }
-            set { Health = value; }
-        }
-        public int SetMaxHealth
-        {
-            get { return MaxHealth; }
-            set {  MaxHealth = value; }
-        }     
-        public int SetCoins
-        {
-            get { return Coins; }
-            set { Coins = value; }
-        }
+        get { return SaveDataSO; }
     }
     void Awake()
     {
         Instance = this;
         SaveFolderPath = Application.persistentDataPath;
         
-        SaveData SaveData1 = GetGameData();
-        SaveDataSO.levelReached = SaveData1.SetLevelReached;
-        SaveDataSO.GetHealth = SaveData1.SetHealth;
-        SaveDataSO.GetMaxHealth = SaveData1.SetMaxHealth;
-        SaveDataSO.GetCoins = SaveData1.SetCoins;
+        GetGameData();
     }
     public SaveDataSO GetSaveData
     {
@@ -62,32 +34,35 @@ public class SaveManager : MonoBehaviour
         //Save SaveSlot and Checkpoint to playerprefs, then use to save on current slot
         // Create the save folder if it doesn't exist
         string SaveFilePath = Path.Combine(SaveFolderPath, "saveData.json");
-        // Create a SaveData object with your game's data
-        SaveData SaveData = new();
-        SaveData.SetLevelReached = SceneManager.GetActiveScene().buildIndex + 1;
-        SaveData.SetCoins = SaveDataSO.GetCoins;
-        SaveData.SetHealth = SaveDataSO.GetHealth;
-        SaveData.SetMaxHealth = SaveDataSO.GetMaxHealth;
-        // Serialize and save the data to a JSON file
 
-        string JsonData = JsonConvert.SerializeObject(SaveData);
+        string JsonData = JsonConvert.SerializeObject(SaveDataSO, Formatting.Indented);
         File.WriteAllText(SaveFilePath, JsonData);
     }
-    public SaveData GetGameData()
+    public void GetGameData()
     {
         // Load the data from a specific checkpoint
         string SaveFilePath = Path.Combine(SaveFolderPath, "saveData.json");
         if(File.Exists(SaveFilePath))
         {
             string JsonData = File.ReadAllText(SaveFilePath);
+            SaveDataSO Data = JsonConvert.DeserializeObject<SaveDataSO>(JsonData);
+            SaveDataSO.GetCoins = Data.GetCoins;
+            SaveDataSO.GetHealth = Data.GetHealth;
+            SaveDataSO.GetMaxHealth = Data.GetMaxHealth;
+            SaveDataSO.GetMissilesCount = Data.GetMissilesCount;
+            SaveDataSO.levelReached = Data.levelReached;
 
-            return JsonConvert.DeserializeObject<SaveData>(JsonData);
+            return;
         }
-        SaveData NewSaveData = new();
+        SaveDataSO NewSave = ScriptableObject.CreateInstance<SaveDataSO>();
+        SaveDataSO.GetCoins = NewSave.GetCoins;
+        SaveDataSO.GetHealth = NewSave.GetHealth;
+        SaveDataSO.GetMaxHealth = NewSave.GetMaxHealth;
+        SaveDataSO.GetMissilesCount = NewSave.GetMissilesCount;
+        SaveDataSO.levelReached = NewSave.levelReached;
 
-        string NewData = JsonConvert.SerializeObject(NewSaveData);
+        string NewData = JsonConvert.SerializeObject(SaveDataSO, Formatting.Indented);
         File.WriteAllText(SaveFilePath, NewData);
-        return NewSaveData;
         // Use the loaded data to restore the game state
         /* Set player position, health, inventory, etc. */
     }

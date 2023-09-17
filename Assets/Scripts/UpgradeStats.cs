@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UpgradeStats : MonoBehaviour
 {
-    [SerializeField] UpgradeType upgradeType;
+    [SerializeField] private UpgradeType upgradeType;
     private void Start()
     {
         TextMeshProUGUI Text = GetComponentInChildren<TextMeshProUGUI>();

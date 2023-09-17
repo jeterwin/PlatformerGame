@@ -16,3 +16,4 @@ MonoBehaviour:
   Health: 3
   MaxHealth: 6
   Coins: 0
+  Missiles: 100

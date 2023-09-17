@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PauseScript : MonoBehaviour
 {
-    bool isPaused = false;
+    private bool isPaused = false;
 
     [SerializeField] GameObject PauseUI;
     public void Pause()

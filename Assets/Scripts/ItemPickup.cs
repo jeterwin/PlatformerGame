@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
-    [SerializeField] ItemType ItemType;
+    [SerializeField] private ItemType ItemType;
     
-    [SerializeField] AudioClip SFX;
+    [SerializeField] private AudioClip SFX;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

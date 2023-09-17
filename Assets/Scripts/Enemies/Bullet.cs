@@ -24,5 +24,12 @@ public class Bullet : MonoBehaviour
     {
         rb2d.AddForce(Vector2.right * BulletMovespeed * Time.deltaTime, ForceMode2D.Impulse);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(!collision.gameObject.CompareTag("Enemy")) { Destroy(gameObject); }
+        Destroy(collision.gameObject);
+        Destroy(gameObject);
+    }
 }
     

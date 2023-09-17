@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class CameraFollower : MonoBehaviour
 {
-    [SerializeField] Camera MainCamera;
+    [SerializeField] private Camera MainCamera;
 
-    [SerializeField] Camera SecondaryCamera;
+    [SerializeField] private Camera SecondaryCamera;
 
     private void Update()
     {

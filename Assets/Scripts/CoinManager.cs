@@ -12,7 +12,7 @@ public class CoinManager : MonoBehaviour
 
     public TextMeshProUGUI Text;
 
-    [SerializeField] GameObject EndScreen;
+    [SerializeField] private GameObject EndScreen;
 
     private void Awake()
     {

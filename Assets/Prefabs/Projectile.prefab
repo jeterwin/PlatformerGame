@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1711296838154258592}
   - component: {fileID: -5367575075917969558}
   m_Layer: 0
-  m_Name: spark-preview1 (1)
+  m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb2d: {fileID: -5367575075917969558}
-  Movespeed: 5
+  BulletMovespeed: 5
 --- !u!50 &-5367575075917969558
 Rigidbody2D:
   serializedVersion: 4

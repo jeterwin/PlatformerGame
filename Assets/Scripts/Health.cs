@@ -7,48 +7,45 @@ public class Health : MonoBehaviour
 {
     public static Health Instance;
 
-    [SerializeField] CinemachineVirtualCamera VCam;
+    [SerializeField] private CinemachineVirtualCamera VCam;
 
-    CinemachineBasicMultiChannelPerlin ChannelPerlin;
+    private CinemachineBasicMultiChannelPerlin ChannelPerlin;
 
     public float HP = 30;
 
     [Header("Shake Variables")]
 
-    [SerializeField] float Frequency;
+    [SerializeField] private float Frequency;
 
-    [SerializeField] float Amplitude;
+    [SerializeField] private float Amplitude;
 
-    [SerializeField] float InvincibilityTime;
+    [SerializeField] private float InvincibilityTime;
 
-    [SerializeField] float ResetShakeTimer;
+    [SerializeField] private float ResetShakeTimer;
 
     [Space]
     [Header("Death Variables")]
 
     public GameObject DeathUI;
 
-    [SerializeField] AudioClip DeathSFX;
+    [SerializeField] private AudioClip DeathSFX;
 
-    [SerializeField] AudioClip DamageTakenSFX;
+    [SerializeField] private AudioClip DamageTakenSFX;
 
     [Space]
     [Header("Health Variables")]
 
-    [SerializeField] ParticleSystem ParticleSystem;
+    [SerializeField] private ParticleSystem ParticleSystem;
 
-    [SerializeField] Image HeartBar;
+    [SerializeField] private Image HeartBar;
 
-    [SerializeField] Image FullHeartBar;
+    [SerializeField] private Image FullHeartBar;
 
-    [SerializeField] AudioSource AudioSource;
+    [SerializeField] private AudioSource AudioSource;
 
+    private Animator HealthAnimator;
 
-    Animator HealthAnimator;
-
-    SaveManager.SaveData SaveData;
-
-    bool CanTakeDamage = true;
+    private bool CanTakeDamage = true;
 
     private void Awake()
     {
@@ -58,13 +55,11 @@ public class Health : MonoBehaviour
     {
         Initialize();
     }
-
     private void Initialize()
     {
-        SaveData = SaveManager.Instance.GetGameData();
-        HP = SaveData.SetHealth;
-        FullHeartBar.fillAmount = HP / SaveData.SetMaxHealth;
-        HeartBar.fillAmount = HP / SaveData.SetMaxHealth;
+        HP = SaveManager.Instance.GetSaveData.GetHealth;
+        FullHeartBar.fillAmount = HP / SaveManager.Instance.GetSaveData.GetMaxHealth;
+        HeartBar.fillAmount = HP / SaveManager.Instance.GetSaveData.GetMaxHealth;
 
         HealthAnimator = HeartBar.GetComponent<Animator>();
         ChannelPerlin = VCam.GetComponentInChildren<CinemachineBasicMultiChannelPerlin>();
@@ -82,7 +77,7 @@ public class Health : MonoBehaviour
         HealthAnimator.Play("Damage");
         AudioSource.PlayOneShot(DamageTakenSFX);
         HP -= Damage;
-        HeartBar.fillAmount = HP / SaveData.SetMaxHealth;
+        HeartBar.fillAmount = HP / SaveManager.Instance.GetSaveData.GetMaxHealth;
         ParticleSystem.Play();
         Shake(Amplitude, Frequency);
         if (HP == 0)
@@ -99,14 +94,14 @@ public class Health : MonoBehaviour
     {
         MovementScript.Instance.rb.velocity = Vector2.zero;
         MovementScript.Instance.rb.angularVelocity = 0f;
-        MovementScript.Instance.rb.AddForce(Vector2.up * MovementScript.Instance.JumpHeight * JumpMultiplier, ForceMode2D.Impulse);
+        MovementScript.Instance.rb.AddForce(MovementScript.Instance.JumpHeight * JumpMultiplier * Vector2.up, ForceMode2D.Impulse);
     }
 
     private void Die()
     {
         DeathUI.SetActive(true);
         AudioSource.PlayOneShot(DeathSFX);
-        MovementScript.Instance.CanMove = false;
+        MovementScript.Instance.canMove = false;
     }
 
     public IEnumerator ResetShake()

@@ -9,15 +9,15 @@ public class LevelGenerator : MonoBehaviour
 
     public LevelList LevelList;
 
-    [SerializeField] Sprite CompletedLevelSprite;
+    [SerializeField] private Sprite CompletedLevelSprite;
 
-    [SerializeField] Sprite UncompletedLevelSprite;
+    [SerializeField] private Sprite UncompletedLevelSprite;
 
-    [SerializeField] Sprite LockedLevelSprite;
+    [SerializeField] private Sprite LockedLevelSprite;
 
-    [SerializeField] GameObject LevelPrefab;
+    [SerializeField] private GameObject LevelPrefab;
 
-    [SerializeField] Transform LevelsGrid;
+    [SerializeField] private Transform LevelsGrid;
 
     private void Awake()
     {

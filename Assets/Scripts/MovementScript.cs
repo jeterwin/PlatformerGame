@@ -11,9 +11,9 @@ public class MovementScript : MonoBehaviour
 
     public Rigidbody2D rb;
 
-    [SerializeField] SpriteRenderer SpriteRenderer;
+    [SerializeField] private SpriteRenderer SpriteRenderer;
 
-   [SerializeField] ParticleSystem DustParticleSystem;
+    [SerializeField] private ParticleSystem DustParticleSystem;
 
     [Header("Movement Variables")]
 
@@ -23,24 +23,26 @@ public class MovementScript : MonoBehaviour
 
     [Header("Gravity Settings")]
 
-    [SerializeField] float NormalGravityScale;
+    [SerializeField] private float NormalGravityScale;
 
-    [SerializeField] float MinGravityScale;
+    [SerializeField] private float MinGravityScale;
 
-    [SerializeField] float MaxFallSpeed;
+    [SerializeField] private float MaxFallSpeed;
 
     [Header("Sound Effects")]
 
     [SerializeField] AudioSource AudioSource;
 
-    [SerializeField] AudioClip JumpSFX;
+    [SerializeField] private AudioClip JumpSFX;
 
-    int MovingLeft = 0, MovingRight = 0;
+    private int MovingLeft = 0, MovingRight = 0;
 
-    [HideInInspector]
-    public bool CanMove = true;
-
-    [SerializeField] bool reachedPeak = false;
+    private bool CanMove = true;
+    public bool canMove
+    {
+        get { return CanMove; }
+        set { CanMove = value; }
+    }
     public int IsReversed
     {
         get { return SpriteRenderer.flipX ? -1 : 1; } 
@@ -60,10 +62,10 @@ public class MovementScript : MonoBehaviour
             return;
 
         if(MovingLeft == 1)
-            transform.Translate(Vector2.left * MoveSpeed * Time.deltaTime);
+            transform.Translate(MoveSpeed * Time.deltaTime * Vector2.left);
         else
             if(MovingRight == 1)
-                transform.Translate(Vector2.right * MoveSpeed * Time.deltaTime);
+                transform.Translate(MoveSpeed * Time.deltaTime * Vector2.right);
         //Falling state
         if(rb.velocity.y < 0)
         {
@@ -77,7 +79,7 @@ public class MovementScript : MonoBehaviour
         UpdateAnimationState();
     }
 
-    public bool isGrounded
+    public bool IsGrounded
     {
         get { return rb.velocity.y == 0; }
     }
@@ -114,13 +116,13 @@ public class MovementScript : MonoBehaviour
             State = MovementState.Jumping;
         }
 
-        if((int)State == 1 && isGrounded)
+        if((int)State == 1 && IsGrounded)
             DustParticleSystem.Play();
         Animator.SetInteger("State", (int)State);
     }
     public void Jump()
     {
-        if(isGrounded)
+        if(IsGrounded)
         {
             rb.AddForce(Vector2.up * JumpHeight, ForceMode2D.Impulse);
             AudioSource.PlayOneShot(JumpSFX);

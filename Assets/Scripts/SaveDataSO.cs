@@ -3,13 +3,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Save File", fileName = "Save File")]
 public class SaveDataSO : ScriptableObject
 {
-    [SerializeField] int LevelReached = 1;
+    [SerializeField] private int LevelReached = 1;
 
-    [SerializeField] int Health = 3;
+    [SerializeField] private int Health = 3;
 
-    [SerializeField] int MaxHealth = 6;
+    [SerializeField] private int MaxHealth = 6;
 
-    [SerializeField] int Coins = 0;
+    [SerializeField] private int Coins = 0;
+
+    [SerializeField] private int Missiles = 0;
     public int levelReached
     {
         get { return LevelReached; }
@@ -32,5 +34,11 @@ public class SaveDataSO : ScriptableObject
     {
         get { return Coins; }
         set { Coins = value; }
+    }
+
+    public int GetMissilesCount
+    {
+        get { return Missiles; }
+        set { Missiles = value; }
     }
 }

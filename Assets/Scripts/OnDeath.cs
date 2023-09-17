@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class OnDeath : MonoBehaviour
 {
-    [SerializeField] GameObject LoadingScreen;
+    [SerializeField] private GameObject LoadingScreen;
     public void ResetLevel()
     {
         StartCoroutine(LoadScene(SceneManager.GetActiveScene().name));

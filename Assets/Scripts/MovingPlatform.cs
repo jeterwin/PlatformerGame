@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    [SerializeField] float MoveSpeed;
+    [SerializeField] private float MoveSpeed;
 
-    [SerializeField] int StartingPoint;
+    [SerializeField] private int StartingPoint;
 
-    [SerializeField] Transform[] Points;
+    [SerializeField] private Transform[] Points;
 
     private int i = 0;
 

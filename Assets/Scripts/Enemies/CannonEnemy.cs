@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class CannonEnemy : EnemyAI
 {
-    [SerializeField] GameObject BulletPrefab;
-    [SerializeField] float FireRate;
-    [SerializeField] Direction Direction;
-    [SerializeField] Transform CannonMuzzle;
+    [SerializeField] private GameObject BulletPrefab;
+    [SerializeField] private float FireRate;
+    [SerializeField] private Direction Direction;
+    [SerializeField] private Transform CannonMuzzle;
 
     float ShootTimer;
     private void Update()
