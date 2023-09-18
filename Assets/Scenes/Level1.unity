@@ -1446,6 +1446,10 @@ PrefabInstance:
       propertyPath: FullHeartBar
       value: 
       objectReference: {fileID: 507957560}
+    - target: {fileID: 5883860437637262240, guid: 53d3d4651fe86b84fb783e0ede788a02, type: 3}
+      propertyPath: ShakeDuration
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

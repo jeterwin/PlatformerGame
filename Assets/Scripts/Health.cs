@@ -15,6 +15,8 @@ public class Health : MonoBehaviour
 
     [Header("Shake Variables")]
 
+    [SerializeField] private float ShakeDuration;
+
     [SerializeField] private float Frequency;
 
     [SerializeField] private float Amplitude;
@@ -43,6 +45,8 @@ public class Health : MonoBehaviour
 
     [SerializeField] private AudioSource AudioSource;
 
+    private Vector3 InitialPosition;
+
     private Animator HealthAnimator;
 
     private bool CanTakeDamage = true;
@@ -54,6 +58,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         Initialize();
+        InitialPosition = VCam.transform.position;
     }
     private void Initialize()
     {
@@ -79,7 +84,7 @@ public class Health : MonoBehaviour
         HP -= Damage;
         HeartBar.fillAmount = HP / SaveManager.Instance.GetSaveData.GetMaxHealth;
         ParticleSystem.Play();
-        Shake(Amplitude, Frequency);
+        StartCoroutine(Shake(Amplitude, Frequency));
         if (HP == 0)
         {
             Die();
@@ -119,11 +124,20 @@ public class Health : MonoBehaviour
         yield return null;
     }
 
-    void Shake(float amplitude, float frequency)
+    IEnumerator Shake(float amplitude, float frequency)
     {
-        ChannelPerlin.m_AmplitudeGain = amplitude;
+        float elapsedTime = 0;
+        while(elapsedTime < ShakeDuration)
+        {
+            VCam.transform.position = InitialPosition + (Vector3)Random.insideUnitCircle * amplitude;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        VCam.transform.position = InitialPosition;
+        yield return null;
+/*        ChannelPerlin.m_AmplitudeGain = amplitude;
         ChannelPerlin.m_FrequencyGain = frequency;
-        StartCoroutine(ResetShake());
+        StartCoroutine(ResetShake());*/
     }
     IEnumerator Damageable()
     {
