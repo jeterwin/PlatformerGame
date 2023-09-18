@@ -10,8 +10,6 @@ public class Shop : MonoBehaviour
 
     [SerializeField] private Image HealthImage;
 
-    [SerializeField] private AudioSource AudioSource;
-
     [SerializeField] private TextMeshProUGUI CoinsText;
 
     [SerializeField] private TextMeshProUGUI MissilesCount;
@@ -82,7 +80,6 @@ public class Shop : MonoBehaviour
     {
         SaveManager.Instance.SaveGame();
         SuccessParticleSystem.Play();
-        AudioSource.Play();
     }
 }
 

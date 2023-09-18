@@ -22,14 +22,21 @@ public class AttackScript : MonoBehaviour
     }
     public void Attack()
     {
-        if(SaveManager.Instance.GetSaveData.GetMissilesCount < 0 && !CanAttack) { return; }
+        if (SaveManager.Instance.GetSaveData.GetMissilesCount < 0 && !CanAttack) { return; }
 
+        ShootProjectile();
+    }
+
+    private void ShootProjectile()
+    {
         CanAttack = false;
         timeLeft = AttackCooldown;
-        GameObject Missile = Instantiate(Projectile);
+        SaveManager.Instance.GetSaveData.GetMissilesCount -= 1;
+        GameObject Missile = Instantiate(Projectile, MovementScript.Instance.GetComponent<Transform>().position + new Vector3(0, 0.8f, 0), Quaternion.identity);
         Missile.GetComponent<Bullet>().SetDirection = MovementScript.Instance.IsReversed == 1 ? 1 : -1;
-        Missile.GetComponent<SpriteRenderer>().flipX = MovementScript.Instance.IsReversed == 1 ? false : true;
+        Missile.GetComponent<SpriteRenderer>().flipX = MovementScript.Instance.IsReversed == 1;
     }
+
     private void Update()
     {
         if(CanAttack) { return; }

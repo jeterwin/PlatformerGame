@@ -17,19 +17,21 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         BulletMovespeed *= Direction;
-        GetComponent<SpriteRenderer>().flipX = Direction == 1 ? false : true;
+        GetComponent<SpriteRenderer>().flipX = Direction != 1;
         Destroy(gameObject, 2f);
     }
     private void Update()
     {
-        rb2d.AddForce(Vector2.right * BulletMovespeed * Time.deltaTime, ForceMode2D.Impulse);
+        rb2d.AddForce(BulletMovespeed * Time.deltaTime * Vector2.right, ForceMode2D.Impulse);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(!collision.gameObject.CompareTag("Enemy")) { Destroy(gameObject); }
-        Destroy(collision.gameObject);
-        Destroy(gameObject);
+        if(collision.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
     }
 }
     

@@ -9,6 +9,8 @@ public class ItemPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(!collision.CompareTag("Player")) { return; }
+
         if(ItemType == ItemType.Coin)
             PickupCoin();
         else

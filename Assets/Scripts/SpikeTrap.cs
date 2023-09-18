@@ -8,6 +8,7 @@ public class SpikeTrap : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(!collision.CompareTag("Player")) { return; }
         Health.Instance.StartCoroutine(Health.Instance.TakeDamage(Damage, JumpMultiplier, false));
     }
 }
